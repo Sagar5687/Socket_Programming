@@ -1,0 +1,19 @@
+from socket import *
+serverName = gethostname()
+serverPort = 5566
+clientSocket = socket(AF_INET,SOCK_STREAM)
+clientSocket.connect((serverName,serverPort))
+while True:
+    filename = input("Enter file name you want to download \n")
+    clientSocket.send(filename.encode())
+    if filename == "over":
+        break
+    else:
+        with open(filename+"1",'w') as f:
+            line=clientSocket.recv(1024).decode()
+            if not line:
+                break
+            f.write(line)
+    print("File Downloaded Succesfully\n")
+        
+clientSocket.close()
